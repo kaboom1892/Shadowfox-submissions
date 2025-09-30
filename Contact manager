@@ -1,0 +1,101 @@
+import java.util.ArrayList;
+import java.util.Scanner;
+
+class Contact {
+    String name;
+    String phone;
+    String email;
+
+    Contact(String name, String phone, String email) {
+        this.name = name;
+        this.phone = phone;
+        this.email = email;
+    }
+
+    @Override
+    public String toString() {
+        return "Name: " + name + ", Phone: " + phone + ", Email: " + email;
+    }
+}
+
+public class ContactManager {
+    public static void main(String[] args) {
+        ArrayList<Contact> contacts = new ArrayList<>();
+        Scanner scanner = new Scanner(System.in);
+
+        while (true) {
+            System.out.println("\n=== Contact Manager ===");
+            System.out.println("1. Add Contact");
+            System.out.println("2. View Contacts");
+            System.out.println("3. Update Contact");
+            System.out.println("4. Delete Contact");
+            System.out.println("5. Exit");
+            System.out.print("Enter choice: ");
+            int choice = Integer.parseInt(scanner.nextLine());
+
+            switch (choice) {
+                case 1:
+                    System.out.print("Enter Name: ");
+                    String name = scanner.nextLine();
+                    System.out.print("Enter Phone: ");
+                    String phone = scanner.nextLine();
+                    System.out.print("Enter Email: ");
+                    String email = scanner.nextLine();
+                    contacts.add(new Contact(name, phone, email));
+                    System.out.println("Contact added!");
+                    break;
+
+                case 2:
+                    if (contacts.isEmpty()) {
+                        System.out.println("No contacts found!");
+                    } else {
+                        for (Contact c : contacts) {
+                            System.out.println(c);
+                        }
+                    }
+                    break;
+
+                case 3:
+                    System.out.print("Enter contact number (phone) to update: ");
+                    String updatePhone = scanner.nextLine();
+                    boolean updated = false;
+                    for (Contact c : contacts) {
+                        if (c.phone.equals(updatePhone)) {
+                            System.out.print("Enter new Name: ");
+                            c.name = scanner.nextLine();
+                            System.out.print("Enter new Phone: ");
+                            c.phone = scanner.nextLine();
+                            System.out.print("Enter new Email: ");
+                            c.email = scanner.nextLine();
+                            System.out.println("Contact updated!");
+                            updated = true;
+                            break;
+                        }
+                    }
+                    if (!updated) {
+                        System.out.println("Contact not found!");
+                    }
+                    break;
+
+                case 4:
+                    System.out.print("Enter contact number (phone) to delete: ");
+                    String deletePhone = scanner.nextLine();
+                    boolean removed = contacts.removeIf(c -> c.phone.equals(deletePhone));
+                    if (removed) {
+                        System.out.println("Contact deleted!");
+                    } else {
+                        System.out.println("Contact not found!");
+                    }
+                    break;
+
+                case 5:
+                    System.out.println("Exiting Contact Manager. Goodbye!");
+                    scanner.close();
+                    return;
+
+                default:
+                    System.out.println("Invalid choice! Please try again.");
+            }
+        }
+    }
+}
